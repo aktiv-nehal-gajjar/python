@@ -1,0 +1,29 @@
+# .github/workflows/ci-pipeline.yml
+name: Python Application CI
+
+# 1. THE TRIGGER: Run this pipeline automatically whenever someone pushes code to the 'main' branch
+on:
+  push:
+    branches: [ "main" ]
+
+# 2. THE JOBS: What the automated server should actually execute
+jobs:
+  build-and-test:
+    # Tell GitHub to spin up a fresh, temporary cloud server running Ubuntu Linux
+    runs-on: ubuntu-latest
+
+    # The sequential steps our server will take
+    steps:
+    # Step A: Download a copy of our code repository onto the cloud server
+    - name: Checkout repository code
+      uses: actions/checkout@v4
+
+    # Step B: Install Python on the cloud server
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+
+    # Step C: Run our test file automatically
+    - name: Run automated test suite
+      run: python test_app.py
